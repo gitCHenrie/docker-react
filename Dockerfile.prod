@@ -1,0 +1,12 @@
+FROM node:alpine as Builder
+WORKDIR /FrontendApp
+COPY package.json .
+RUN npm install
+COPY . .
+RUN npm run build
+
+FROM nginx
+COPY --from=Builder /FrontendApp/build /usr/share/nginx/html
+
+
+
